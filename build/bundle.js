@@ -310,7 +310,7 @@ var app = (function () {
     	return {
     		c() {
     			div = element("div");
-    			div.innerHTML = `<img bp="offset-5@md 4@md 12@sm" src="/handwashing.gif" alt="How to wash your hands" class="svelte-1yc2abm"/>`;
+    			div.innerHTML = `<img bp="offset-5@md 4@md 12@sm" src="handwashing.gif" alt="How to wash your hands" class="svelte-1yc2abm"/>`;
     			attr(div, "bp", "grid");
     		},
     		m(target, anchor) {
