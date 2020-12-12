@@ -1,23 +1,25 @@
 <script>
-    import ProgressBar from './ProgressBar.svelte'
-    const totalSeconds = 60;
+    import { createEventDispatcher } from "svelte";
+    const dispatcher = createEventDispatcher();
+
+    import ProgressBar from "./ProgressBar.svelte";
+    const totalSeconds = 20;
     let secondsLeft = totalSeconds;
-    let isRunning = false
-    $:progress =( ((totalSeconds - secondsLeft) / totalSeconds) * 100)
+    let isRunning = false;
+    $: progress = ((totalSeconds - secondsLeft) / totalSeconds) * 100;
     function startTimer() {
-        isRunning = true
+        isRunning = true;
         let timer = setInterval(() => {
-           secondsLeft -= 1
-           if(secondsLeft === 0) {
-               clearInterval(timer)
-               isRunning = false
-               secondsLeft = totalSeconds
-           }
+            secondsLeft -= 1;
+            if (secondsLeft === 0) {
+                clearInterval(timer);
+                isRunning = false;
+                secondsLeft = totalSeconds;
+                dispatcher("end");
+            }
         }, 1000);
     }
-
 </script>
-
 
 <style>
     h2 {
@@ -31,13 +33,14 @@
     }
 </style>
 
-
 <div bp="grid">
-    <h2  bp="offset-5@md 4@md 12@sm">
-        Seconds Left: {secondsLeft}
-    </h2>
+    <h2 bp="offset-5@md 4@md 12@sm">Seconds Left: {secondsLeft}</h2>
 </div>
-<ProgressBar progress={progress}/>
+<ProgressBar {progress} />
 <div bp="grid">
-<button bp="offset-5@md 4@md 12@sm" class="start" on:click="{startTimer}" disabled={isRunning}>Start</button>
+    <button
+        bp="offset-5@md 4@md 12@sm"
+        class="start"
+        on:click={startTimer}
+        disabled={isRunning}>Start</button>
 </div>
