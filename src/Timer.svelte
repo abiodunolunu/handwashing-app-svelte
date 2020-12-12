@@ -1,6 +1,23 @@
 <script>
     import ProgressBar from './ProgressBar.svelte'
+    const totalSeconds = 60;
+    let secondsLeft = totalSeconds;
+    let isRunning = false
+    $:progress =( ((totalSeconds - secondsLeft) / totalSeconds) * 100)
+    function startTimer() {
+        isRunning = true
+        let timer = setInterval(() => {
+           secondsLeft -= 1
+           if(secondsLeft === 0) {
+               clearInterval(timer)
+               isRunning = false
+               secondsLeft = totalSeconds
+           }
+        }, 1000);
+    }
+
 </script>
+
 
 <style>
     h2 {
@@ -17,9 +34,10 @@
 
 <div bp="grid">
     <h2  bp="offset-5@md 4@md 12@sm">
-        Seconds Left: 
+        Seconds Left: {secondsLeft}
     </h2>
 </div>
-<ProgressBar />
-
-<button class="start">Start</button>
+<ProgressBar progress={progress}/>
+<div bp="grid">
+<button bp="offset-5@md 4@md 12@sm" class="start" on:click="{startTimer}" disabled={isRunning}>Start</button>
+</div>
